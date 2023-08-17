@@ -1,0 +1,6 @@
+[
+  { "id": 0, "name": "Lafitte", "color": "red" },
+  { "id": 1, "name": "Meursault", "color": "white" },
+  { "id": 2, "name": "Vieux Pape", "color": "red" },
+  { "id": 4, "name": "fs promises", "color": "rouge" }
+]
