@@ -10,6 +10,8 @@ router
   .get(bottleController.getAllBottles)
   .post(bottleController.checkBody, bottleController.createBottle);
 
+router.route('/csv').get(bottleController.getAllBottlesCSV);
+
 router.route('/:id').get(bottleController.getBottle);
 
 module.exports = router;
