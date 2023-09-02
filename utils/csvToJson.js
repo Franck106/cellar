@@ -4,7 +4,7 @@ exports.csvToJson = function (path) {
   try {
     const content = fs.readFileSync(path, 'utf-8');
     const lines = content.split('\n');
-    const headers = lines.shift().split(',');
+    const headers = lines.shift().toLocaleLowerCase().split(',');
     const bottles = [];
     lines.forEach((line) => {
       const rawBottle = line.split(',');
@@ -14,6 +14,7 @@ exports.csvToJson = function (path) {
           [headers[index]]: value,
         });
       }, {});
+      bottle.name = bottle.name || 'unknown';
       bottles.push(bottle);
     });
     console.log(`Read file ${path} done!`);

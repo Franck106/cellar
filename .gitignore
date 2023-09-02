@@ -1,4 +1,5 @@
 .vscode
 node_modules
 .env
-devData/bottles.*
+devData/bottles.csv
+devData/bottles.json
