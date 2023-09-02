@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 
-exports.csvTojsonSync = function (path) {
+exports.csvToJson = function (path) {
   try {
     const content = fs.readFileSync(path, 'utf-8');
     const lines = content.split('\n');

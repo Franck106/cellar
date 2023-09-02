@@ -1,12 +1,9 @@
 const fs = require('fs');
 const Bottle = require('../models/bottleModel');
-const { csvTojsonSync } = require('../utils/csvToJson');
 
-// const bottles = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../devData/bottles.json`)
-// );
-
-const bottleJSON = csvTojsonSync('./devData/bottles.csv');
+const bottles = JSON.parse(
+  fs.readFileSync(`${__dirname}/../devData/bottles.json`)
+);
 
 const idRegex = /^[0-9a-fA-F]{24}$/;
 
@@ -42,11 +39,11 @@ exports.getAllBottles = async (req, res) => {
   });
 };
 
-exports.getAllBottlesCSV = (_req, res) => {
+exports.getAllBottlesJSON = (_req, res) => {
   return res.status(200).json({
     status: 'success',
-    results: bottleJSON.length,
-    data: bottleJSON,
+    results: bottles.length,
+    data: bottles,
   });
 };
 
