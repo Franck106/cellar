@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import fs from 'node:fs';
+// import fs from 'node:fs';
 
 import app from './app';
-import { csvToJson } from './utils/csvToJson';
+import { /* csvToJson, */ csvToJsonAsync } from './utils/csvToJson';
 import Bottle from './models/bottleModel';
 
 dotenv.config();
@@ -17,12 +17,15 @@ console.log({ DB });
 mongoose.connect(DB || '').then(() => console.log('DB connection successful!'));
 
 // Parse CSV synchronously at the start of the app.
-const bottles = csvToJson('./devData/bottles.csv');
-fs.writeFileSync('./devData/bottles.json', JSON.stringify(bottles), {
-  encoding: 'utf-8',
-});
+// const bottles = csvToJson('./devData/bottles.csv');
+// fs.writeFileSync('./devData/bottles.json', JSON.stringify(bottles), {
+//   encoding: 'utf-8',
+// });
 
 (async function initDB() {
+  const bottles = await csvToJsonAsync('./devData/bottles.csv');
+  console.log(`Read ${bottles.length} lines done!`);
+
   const reset = await Bottle.deleteMany();
   console.log({ reset });
   await Bottle.create(bottles);
