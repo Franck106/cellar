@@ -1,13 +1,15 @@
-const fs = require('fs');
-const Bottle = require('../models/bottleModel');
+import fs from 'fs';
+import { Request, Response } from 'express';
+
+import Bottle from '../models/bottleModel';
 
 const bottles = JSON.parse(
-  fs.readFileSync(`${__dirname}/../devData/bottles.json`)
+  fs.readFileSync(`./devData/bottles.json`, { encoding: 'utf-8' })
 );
 
 const idRegex = /^[0-9a-fA-F]{24}$/;
 
-exports.checkId = (req, res, next, val) => {
+export const checkId = (req: Request, res: Response, next: any, val: any) => {
   console.log(`Checking ID ${val}`);
   if (!idRegex.test(req.params.id)) {
     return res.status(404).json({
@@ -18,7 +20,7 @@ exports.checkId = (req, res, next, val) => {
   next();
 };
 
-exports.checkBody = (req, res, next) => {
+export const checkBody = (req: Request, res: Response, next: any) => {
   console.log(req.body);
   const bottle = req.body;
   if (!bottle.name) {
@@ -30,7 +32,7 @@ exports.checkBody = (req, res, next) => {
   next();
 };
 
-exports.getAllBottles = async (req, res) => {
+export const getAllBottles = async (_req: Request, res: Response) => {
   const bottlesDB = await Bottle.find();
   res.status(200).json({
     status: 'success',
@@ -39,7 +41,7 @@ exports.getAllBottles = async (req, res) => {
   });
 };
 
-exports.getAllBottlesJSON = (_req, res) => {
+export const getAllBottlesJSON = (_req: Request, res: Response) => {
   return res.status(200).json({
     status: 'success',
     results: bottles.length,
@@ -48,7 +50,7 @@ exports.getAllBottlesJSON = (_req, res) => {
 };
 
 // Find in file
-// exports.getBottle = (req, res) => {
+// export const getBottle = (req, res) => {
 //   console.log(req.params.id);
 //   const id = req.params.id * 1;
 
@@ -61,7 +63,7 @@ exports.getAllBottlesJSON = (_req, res) => {
 // };
 
 // Find in MongoDB
-exports.getBottle = async (req, res) => {
+export const getBottle = async (req: Request, res: Response) => {
   const id = req.params.id;
   try {
     const bottle = await Bottle.findById(id);
@@ -85,7 +87,7 @@ exports.getBottle = async (req, res) => {
 };
 
 // Save to file
-// exports.createBottle = (req, res) => {
+// export const createBottle = (req, res) => {
 //   const newId = bottles[bottles.length - 1].id + 1;
 //   const newBottle = Object.assign({ id: newId }, req.body);
 //   bottles.push(newBottle);
@@ -99,7 +101,7 @@ exports.getBottle = async (req, res) => {
 // };
 
 // Save to MongoDB
-exports.createBottle = async (req, res) => {
+export const createBottle = async (req: Request, res: Response) => {
   const bottle = new Bottle(req.body);
   await bottle.save();
   res.status(201).json({

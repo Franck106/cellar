@@ -1,19 +1,20 @@
-const fs = require('node:fs');
+import fs from 'node:fs';
 
-exports.csvToJson = function (path) {
+export function csvToJson(path: string) {
   try {
     const content = fs.readFileSync(path, 'utf-8');
-    const lines = content.split('\n');
-    const headers = lines.shift().toLocaleLowerCase().split(',');
-    const bottles = [];
+    const lines = content.split('\n') || [];
+    const headers = lines.shift()?.toLocaleLowerCase().split(',');
+    const bottles: any[] = [];
     lines.forEach((line) => {
       const rawBottle = line.split(',');
       const bottle = rawBottle.reduce((acc, value, index) => {
+        const prop = headers ? headers[index] : 'default';
         return Object.assign({
           ...acc,
-          [headers[index]]: value,
+          [prop]: value,
         });
-      }, {});
+      }, {} as any);
       bottle.name = bottle.name || 'unknown';
       bottles.push(bottle);
     });

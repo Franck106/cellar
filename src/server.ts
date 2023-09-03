@@ -1,20 +1,20 @@
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const fs = require('node:fs');
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import fs from 'node:fs';
 
-const app = require('./app');
-const { csvToJson } = require('./utils/csvToJson');
-const Bottle = require('./models/bottleModel');
+import app from './app';
+import { csvToJson } from './utils/csvToJson';
+import Bottle from './models/bottleModel';
 
 dotenv.config();
 
 const PORT = process.env.PORT;
-const DB = process.env.DATABASE.replace(
+const DB = process.env.DATABASE?.replace(
   '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
+  process.env.DATABASE_PASSWORD || ''
 );
 console.log({ DB });
-mongoose.connect(DB).then(() => console.log('DB connection successful!'));
+mongoose.connect(DB || '').then(() => console.log('DB connection successful!'));
 
 // Parse CSV synchronously at the start of the app.
 const bottles = csvToJson('./devData/bottles.csv');

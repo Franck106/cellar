@@ -1,0 +1,27 @@
+{
+  "extends": "ts-node/node16/tsconfig.json",
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "require": ["tsconfig-paths/register"],
+  },
+  "compilerOptions": {
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "outDir": "dist"
+  },
+  "lib": ["ES2022"],
+  "include": ["src/**/*"],
+  "exclude": ["dist", ".vscode"],
+  "baseUrl": "./src/",
+  "paths": {
+    "@controllers/*": ["controllers/*"],
+    "@routes/*": ["routes/*"],
+    "@models/*": ["models/*"],
+    "@utils/*": ["utils/*"]
+  }
+}
