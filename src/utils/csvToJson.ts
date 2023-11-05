@@ -27,7 +27,7 @@ export function csvToJson(path: string) {
   }
 }
 
-export async function csvToJsonAsync(path: string) {
+export async function getBottlesFromCsv(path: string) {
   const bottles: any[] = [];
   const readable = fs.createReadStream(path, { encoding: 'utf-8' });
 
@@ -37,10 +37,11 @@ export async function csvToJsonAsync(path: string) {
   });
   let isFirstLine = true;
   let headers: string[];
+  let i = 0;
 
   for await (const line of rl) {
     if (isFirstLine) {
-      headers = line.split(',');
+      headers = line.toLocaleLowerCase().split(',');
       isFirstLine = false;
     } else {
       const rawBottle = line.split(',');
@@ -54,7 +55,10 @@ export async function csvToJsonAsync(path: string) {
       }, {} as any);
 
       bottle.name = bottle.name || 'unknown';
+      bottle.image = `https://picsum.photos/id/${i}/300/300`;
+      console.log(bottle);
       bottles.push(bottle);
+      i++;
     }
   }
   return bottles;

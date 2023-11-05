@@ -17,7 +17,7 @@
   "lib": ["ES2022"],
   "include": ["src/**/*"],
   "exclude": ["dist", ".vscode"],
-  "baseUrl": "./src/",
+  "baseUrl": "./src",
   "paths": {
     "@controllers/*": ["controllers/*"],
     "@routes/*": ["routes/*"],

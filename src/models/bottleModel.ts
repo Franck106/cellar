@@ -9,6 +9,9 @@ const bottleShema = new mongoose.Schema({
   color: String,
   quantity: String,
   price: String,
+  region: String,
+  vintage: String,
+  image: String,
 });
 
 const Bottle = mongoose.model('Bottle', bottleShema);

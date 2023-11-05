@@ -1,9 +1,8 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-// import fs from 'node:fs';
 
 import app from './app';
-import { /* csvToJson, */ csvToJsonAsync } from './utils/csvToJson';
+import { getBottlesFromCsv } from './utils/csvToJson';
 import Bottle from './models/bottleModel';
 
 dotenv.config();
@@ -16,21 +15,17 @@ const DB = process.env.DATABASE?.replace(
 console.log({ DB });
 mongoose.connect(DB || '').then(() => console.log('DB connection successful!'));
 
-// Parse CSV synchronously at the start of the app.
-// const bottles = csvToJson('./devData/bottles.csv');
-// fs.writeFileSync('./devData/bottles.json', JSON.stringify(bottles), {
-//   encoding: 'utf-8',
-// });
-
 (async function initDB() {
-  const bottles = await csvToJsonAsync('./devData/bottles.csv');
-  console.log(`Read ${bottles.length} lines done!`);
+  const bottles = await getBottlesFromCsv('./devData/bottles.csv');
+  console.log(`${bottles.length} bottles to load...`);
 
   const reset = await Bottle.deleteMany();
   console.log({ reset });
+
   await Bottle.create(bottles);
-  const bottlesLoaded = await Bottle.find().estimatedDocumentCount();
-  console.log(`${bottlesLoaded} documents loaded to DB!`);
+  const totalBottlesLoaded = await Bottle.estimatedDocumentCount();
+
+  console.log(`${totalBottlesLoaded} documents loaded to DB!`);
 })();
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}...`));

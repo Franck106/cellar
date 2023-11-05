@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start:js": "nodemon --ignore 'devData/*' dist/server.js",
-    "start": "nodemon --ignore 'devData/*' src/server.ts",
+    "start": "nodemon --ignore 'devData/*' -r tsconfig-paths/register src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
